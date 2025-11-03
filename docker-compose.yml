@@ -1,0 +1,37 @@
+version: '3.7'
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        container_name: ecom_app
+        ports:
+            # ✅ Port du serveur Laravel (si vous utilisez `php artisan serve --port=8000`)
+            - "8000:8000"
+            # 🚨 CORRECTION CRUCIALE : Expose le port 5173 pour Vite (Carrousel/Assets)
+            - "5173:5173" 
+        volumes:
+            - .:/var/www
+        working_dir: /var/www
+        environment:
+            # Référence au service de base de données
+            DB_HOST: db
+            DB_DATABASE: ecom_db
+            DB_USERNAME: user
+            DB_PASSWORD: password
+
+    db:
+        image: postgres:16-alpine
+        container_name: ecom_db
+        restart: always
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_DB: ecom_db
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: password
+        volumes:
+            - db_data:/var/lib/postgresql/data
+
+volumes:
+    db_data:

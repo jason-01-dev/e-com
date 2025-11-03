@@ -1,0 +1,658 @@
+@import 'swiper/swiper-bundle.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------- */
+/* --- 1. Variables et Styles de base (Global) --- */
+/* ---------------------------------------------------- */
+:root {
+    --color-primary: #007bff; /* Bleu standard de la boutique */
+    --color-success: #28a745; 
+    --color-danger: #dc3545; 
+    --color-text: #343a40;
+    --color-background: #f8f9fa;
+    --color-border: #ced4da;
+    --color-light: #fcfcfc;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    line-height: 1.6;
+    padding: 0;
+}
+
+/* --- Mise en page globale (Centrage et style de la boîte) --- */
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Entête Générale (Pleine largeur) --- */
+.main-header {
+    padding: 15px 0; 
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Conteneur pour aligner le contenu du header avec la page */
+.header-content {
+    max-width: 1200px; 
+    margin: 0 auto;
+    padding: 0 20px; /* Espace à l'intérieur du header */
+    text-align: right; 
+}
+
+.cart-header a.back-link {
+    margin-right: 25px; 
+    color: var(--color-primary); 
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+}
+.cart-header span.cart-summary {
+    color: var(--color-primary); 
+    font-weight: bold; 
+    text-decoration: none;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: var(--color-primary);
+    text-decoration: none;
+}
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    text-decoration: none;
+}
+.btn:hover {
+    opacity: 0.9;
+}
+
+
+/* ---------------------------------------------------- */
+/* --- 2. Catalogue et Sidebar (FRONT-END) --- */
+/* ---------------------------------------------------- */
+
+/* --- MISE EN PAGE FLEXBOX (Utiliser cette classe sur la div qui contient sidebar/catalogue) --- */
+.page-content-container {
+    display: flex;
+    gap: 20px; /* Réduit pour plus d'espace */
+    align-items: flex-start;
+}
+
+/* --- Sidebar Catégories --- */
+.sidebar {
+    width: 200px; /* Réduit à 200px */
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.05);
+}
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+.sidebar a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+.sidebar a:hover {
+    text-decoration: underline;
+}
+
+/* --- Grille de produits --- */
+.catalogue {
+    flex: 1;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px; /* Réduit à 20px */
+    margin-top: 20px;
+}
+
+.product-card {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    text-align: center;
+    transition: transform 0.2s ease;
+
+    /* ✅ CORRECTION D'ALIGNEMENT VERTICAL (Flexbox) */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ancre le contenu en haut et en bas */
+    height: 400px; /* Hauteur fixe pour uniformiser la grille */
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.product-card h3 {
+    margin: 15px 0 10px;
+    font-size: 1.1rem;
+    color: var(--color-text);
+}
+
+.product-card .price {
+    color: var(--color-danger);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.product-card .btn.add-to-cart {
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    margin-top: auto; /* Pousse le bouton vers le bas dans le contexte Flex */
+}
+
+
+/* ---------------------------------------------------- */
+/* --- 3. Styles spécifiques au Produit (Show) --- */
+/* ---------------------------------------------------- */
+
+.product-container {
+    display: flex;
+    gap: 40px;
+}
+.product-gallery {
+    flex: 1;
+}
+.product-info {
+    flex: 1;
+}
+
+.main-image {
+    width: 100%;
+    height: auto;
+    max-height: 450px;
+    object-fit: contain;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.thumbnails {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+.thumbnail-item {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+.thumbnail-item:hover, .thumbnail-item.active {
+    border-color: var(--color-primary);
+}
+
+.price {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--color-danger);
+    margin: 15px 0;
+}
+.stock-in {
+    color: var(--color-success);
+    font-weight: bold;
+}
+.stock-out {
+    color: var(--color-danger);
+    font-weight: bold;
+}
+
+/* Formulaire Panier (Ajouter) */
+.cart-form-wrapper {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+.quantity-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.quantity-input input {
+    width: 70px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+}
+.add-to-cart-btn {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: opacity 0.2s;
+}
+.add-to-cart-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+
+/* --- Messages Flash Publics --- */
+.flash-success-public, .flash-error-public {
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 15px;
+    font-weight: bold;
+}
+.flash-success-public {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+.flash-error-public {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+
+/* ---------------------------------------------------- */
+/* --- 4. Styles spécifiques au Panier (Cart) --- */
+/* ---------------------------------------------------- */
+
+.cart-container h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--color-text);
+}
+
+/* Tableau du panier */
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+.cart-table th, .cart-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+.cart-table thead th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+/* Détails des articles */
+.cart-item-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.item-name {
+    font-weight: 600;
+    color: var(--color-text);
+    text-decoration: none;
+}
+.item-name:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+}
+.line-total {
+    font-weight: bold;
+    color: var(--color-danger);
+}
+
+/* Actions Panier */
+.update-form {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.cart-quantity-input {
+    width: 60px;
+    padding: 6px 8px;
+    text-align: center;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+}
+.btn-cart-update {
+    background-color: #6c757d;
+    color: white;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+.btn-cart-remove {
+    background: none;
+    border: none;
+    color: var(--color-danger);
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 0.9rem;
+    padding: 0;
+}
+
+/* Totaux et Checkout */
+.totals-checkout-area {
+    float: right;
+    width: 300px;
+    margin-top: 20px;
+}
+.totals {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: var(--color-light);
+}
+.totals p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.grand-total-line {
+    font-size: 1.25rem;
+    font-weight: bold;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    margin-top: 15px !important;
+}
+.grand-total-amount {
+    color: var(--color-danger);
+}
+.checkout-btn {
+    background-color: var(--color-success);
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+}
+.cart-empty-state {
+    text-align: center; 
+    padding: 50px;
+}
+
+
+/* ---------------------------------------------------- */
+/* --- 5. Styles spécifiques à la Caisse/Checkout --- */
+/* ---------------------------------------------------- */
+
+.checkout-container {
+    display: flex;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.form-section {
+    flex: 2;
+    padding-right: 20px;
+}
+
+.summary-section {
+    flex: 1;
+    background-color: #f8f9fa;
+    padding: 25px;
+    border-radius: 8px;
+    height: fit-content;
+}
+
+/* Formulaires */
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+.form-row .form-group {
+    flex: 1;
+}
+
+/* Résumé de la commande */
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 5px 0;
+}
+.summary-item.subtotal {
+    border-top: 1px dashed #ddd;
+    padding-top: 15px;
+}
+.summary-item.grand-total {
+    border-top: 2px solid var(--color-border);
+    margin-top: 15px;
+    padding-top: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* Bouton Finaliser */
+.checkout-submit-btn {
+    background-color: var(--color-success);
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 30px;
+}
+
+
+/* ---------------------------------------------------- */
+/* --- 6. Styles de Confirmation de Commande --- */
+/* ---------------------------------------------------- */
+
+.confirmation-box {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    text-align: center;
+    border: 2px solid var(--color-success);
+    border-radius: 10px;
+    background-color: #f7fff7;
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.1);
+}
+
+.confirmation-box h1 {
+    color: var(--color-success);
+    font-size: 2rem;
+    margin-bottom: 25px;
+}
+
+.home-link {
+    background-color: var(--color-primary);
+    color: white;
+    display: inline-block;
+    padding: 12px 25px;
+    margin-top: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 5px;
+}
+
+
+/* ---------------------------------------------------- */
+/* --- 7. Styles Responsives (Adaptation pour mobile) --- */
+/* ---------------------------------------------------- */
+
+@media (max-width: 992px) {
+    /* Tablette : Passe la grille à 2 colonnes */
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+    
+    /* Le .container devient full width et les éléments se stackent */
+    .container, .page-content-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 10px;
+    }
+    .sidebar {
+        width: 100%;
+    }
+    .checkout-container {
+        flex-direction: column;
+    }
+    /* Adapte les totaux et autres sections */
+    .totals-checkout-area {
+        float: none;
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Mobile : Passe la grille à 1 colonne */
+    .product-grid {
+        grid-template-columns: 1fr; 
+    }
+    /* Réduit la hauteur des cartes pour les petits écrans */
+    .product-card {
+        height: 350px;
+    }
+    .product-card img {
+        height: 200px;
+    }
+}
+.swiper {
+    width: 100%;
+    /* Laisser cette règle générique basse si elle est utilisée par d'autres swipers */
+    height: 250px; 
+}
+
+.swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+/* 🟢 AJOUT : SWIPER SPÉCIFIQUE À LA PAGE CATALOGUE (index.blade.php) */
+.promotion-slider {
+    width: 100%;
+    height: 350px; /* Hauteur spécifique pour le bandeau de promotion */
+    margin: 40px 0 20px 0; /* Ajout d'une marge pour l'isoler */
+    border-radius: 8px;
+    /* Assurez-vous que les images couvrent le conteneur */
+    object-fit: cover; 
+}
+
+
+/* --- SWIPER SPECIFIQUE À LA PAGE PRODUIT (show.blade.php) --- */
+
+.product-gallery {
+    /* Maintient une proportion pour les images */
+    max-width: 500px; 
+}
+
+/* Slider Principal (Grosses images) */
+.main-slider {
+    width: 100%;
+    height: 450px; /* Grande hauteur pour l'image principale */
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+@media (max-width: 576px) {
+    .main-slider { height: 300px; }
+}
+
+#main-slider .swiper-button-next,
+#main-slider .swiper-button-prev { color: #007bff; }
+#main-slider .swiper-pagination { bottom: 10px; }
+
+.main-slider .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Laisse l'image entière visible sans coupure */
+}
+
+/* Slider Miniatures */
+.thumbnails-slider {
+    width: 100%;
+    height: 80px; /* Petite hauteur pour les miniatures */
+    box-sizing: border-box;
+}
+.thumbnails-slider {
+    width: 100%;
+    height: 80px; /* Petite hauteur pour les miniatures */
+    box-sizing: border-box;
+}
+
+.thumbnails-slider .swiper-slide {
+    width: 80px; /* Taille fixe pour chaque vignette */
+    height: 80px;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.thumbnails-slider .swiper-slide-thumb-active {
+    opacity: 1;
+    border: 2px solid var(--color-primary); /* Indique la miniature active */
+}
+
+.thumbnails-slider .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Recadre si nécessaire pour remplir la vignette */
+    border-radius: 4px;
+}

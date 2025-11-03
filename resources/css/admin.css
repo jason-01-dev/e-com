@@ -1,0 +1,294 @@
+/* --- Variables et Reset de base --- */
+:root {
+    --color-primary: #1e70bf; /* Bleu de base pour les actions */
+    --color-danger: #dc3545; /* Rouge pour les erreurs/suppression */
+    --color-success: #28a745; /* Vert pour les succès */
+    --color-text: #333;
+    --color-background-light: #f8f9fa;
+    --color-border: #ced4da;
+    --spacing-default: 1rem;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--color-background-light);
+    color: var(--color-text);
+    padding: 20px;
+    line-height: 1.6;
+}
+
+/* --- Mise en page du formulaire --- */
+.container {
+    max-width: 1000px; /* Élargissement pour les tableaux */
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: var(--color-primary);
+    margin-bottom: 30px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+form > div {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+/* --- Champs de formulaire et Sélection --- */
+input[type="text"], 
+input[type="number"], 
+textarea, 
+select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus, 
+textarea:focus, 
+select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(30, 112, 191, 0.2);
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* --- Bouton de Soumission de Formulaires (Enregistrer) --- */
+button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: var(--color-success);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 20px;
+}
+
+button[type="submit"]:hover {
+    background-color: #1e8449; /* Vert légèrement plus foncé */
+}
+
+/* --- Gestion des Erreurs et Validation --- */
+.error { 
+    color: var(--color-danger); 
+    font-size: 0.85rem; 
+    margin-top: 5px; 
+    font-style: italic;
+}
+
+.validation-errors {
+    border: 1px solid var(--color-danger);
+    background-color: #f8d7da; /* Rouge très pâle */
+    color: var(--color-danger);
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.validation-errors strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* --- Lien de Retour --- */
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 25px;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* --- Tableau général (products/index, categories/index) --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+thead th {
+    background-color: #f2f2f2;
+    font-weight: 700;
+    color: var(--color-text);
+}
+tbody tr:hover {
+    background-color: #f9f9f9;
+}
+.text-center {
+    text-align: center;
+}
+
+/* --- Statuts (Active/Inactive, Publié/Non) --- */
+.status-active {
+    background-color: var(--color-success);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+.status-inactive {
+    background-color: #ffc107; /* Jaune/Orange */
+    color: var(--color-text);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+/* --- Boutons d'action (CRUD dans les tableaux) --- */
+.btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: inline-block;
+    transition: opacity 0.2s;
+}
+.btn:hover {
+    opacity: 0.8;
+}
+.btn-primary { /* Pour le bouton "Ajouter un nouveau..." */
+    background-color: var(--color-primary);
+    color: white;
+    margin-bottom: 20px;
+}
+.btn-edit {
+    background-color: #007bff; /* Bleu standard pour "Modifier" */
+    color: white;
+    margin-right: 5px;
+}
+.btn-delete {
+    background-color: var(--color-danger); /* Rouge pour "Supprimer" */
+    color: white;
+}
+
+/* --- Flash Message (Succès) --- */
+.flash-success {
+    color: var(--color-success);
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
+    font-weight: 500;
+}
+
+/* --- Styles pour la Galerie d'Images (products/edit) --- */
+
+.current-gallery {
+    margin-top: 25px;
+    padding: 15px;
+    border: 1px dashed var(--color-border);
+    border-radius: 5px;
+    background-color: #fcfcfc;
+}
+
+.current-gallery > label {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: var(--color-primary);
+}
+
+.image-item {
+    display: inline-block;
+    margin: 10px 10px 10px 0;
+    padding: 8px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    text-align: center;
+    vertical-align: top;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.image-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 5px;
+    border-radius: 3px;
+}
+
+/* Boutons spécifiques à la galerie (petites actions) */
+.btn-warning-small,
+.btn-delete-small {
+    padding: 5px 8px;
+    font-size: 0.75rem;
+    display: block; 
+    margin-top: 5px;
+    text-decoration: none;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-warning-small {
+    background-color: #ffc107; /* Jaune pour "Définir comme principal" */
+    color: var(--color-text);
+}
+
+.btn-delete-small {
+    background-color: var(--color-danger); /* Rouge pour "Supprimer" */
+    color: white;
+}
+
+.btn-warning-small:hover {
+    background-color: #e0a800;
+}
+
+.btn-delete-small:hover {
+    background-color: #c82333;
+}
+
+/* Texte d'aide sous les champs (comme pour l'upload d'images) */
+.help-text {
+    display: block;
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-top: 5px;
+}
+
+/* --- Style pour les miniatures de produits dans la liste (products/index) --- */
+.product-thumb {
+    width: 60px; 
+    height: 60px;
+    object-fit: cover; 
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
