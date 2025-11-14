@@ -7,8 +7,8 @@ services:
       dockerfile: Dockerfile
     container_name: ecom_app
     ports:
-      - "8000:8080" # Laravel serveur
-      - "5173:5173" # Vite (assets)
+      - "8000:8080"  
+      - "5173:5173"  
     volumes:
       - .:/var/www
     working_dir: /var/www
