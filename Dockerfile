@@ -9,36 +9,37 @@ RUN apt-get update && apt-get install -y \
     postgresql-client \
     unzip \
     libzip-dev \
-    libmariadb-dev \
     nodejs \
     npm \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Installation des extensions PHP
+# Installation des extensions PHP nécessaires
 RUN docker-php-ext-install pdo pdo_pgsql zip pdo_mysql
 
 # Installation de Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Copie du code Laravel dans le conteneur
+# Définir le répertoire de travail
 WORKDIR /var/www
+
+# Copier le code Laravel
 COPY . .
 
-# Installation des dépendances Laravel
+# Installer les dépendances Laravel
 RUN composer install --no-dev --optimize-autoloader
 
-# Copie du fichier .env.example si .env n’existe pas (utile pour le build Render)
+# Copier le fichier .env si nécessaire
 RUN if [ ! -f .env ]; then cp .env.example .env; fi
 
-# Génération de la clé Laravel
+# Générer la clé Laravel
 RUN php artisan key:generate
 
-# Modification de php.ini
+# Modifier php.ini
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
     && sed -i 's/memory_limit = 128M/memory_limit = 256M/g' /usr/local/etc/php/php.ini
 
-# Exposition du port
+# Exposition du port pour Laravel
 EXPOSE 8080
 
 # Commande de démarrage
